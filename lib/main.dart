@@ -21,22 +21,32 @@ class MyApp extends StatelessWidget {
 class Painter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final rect = Rect.fromCenter(
-      center: Offset(size.width / 2, size.height / 2),
-      width: 100,
-      height: 100,
-    );
+    final c1 = Offset(size.width / 2 - 50, size.height / 2);
+    final c2 = Offset(size.width / 2 + 50, size.height / 2);
+
+    final rect1 = Rect.fromCenter(center: c1, width: 100, height: 100);
+
+    final rect2 = Rect.fromCenter(center: c2, width: 100, height: 100);
 
     canvas.drawRect(
-      rect,
+      rect1,
       Paint()
         ..blendMode = BlendMode.dstOut
         ..shader = const RadialGradient(
           colors: [Colors.green, Colors.transparent],
-        ).createShader(rect),
+        ).createShader(rect1),
+    );
+
+    canvas.drawRect(
+      rect2,
+      Paint()
+        ..blendMode = BlendMode.srcOut
+        ..shader = const RadialGradient(
+          colors: [Colors.green, Colors.transparent],
+        ).createShader(rect1),
     );
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
